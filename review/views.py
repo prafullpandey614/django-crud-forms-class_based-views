@@ -1,8 +1,10 @@
+from dataclasses import dataclass
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import ReviewForm
 from .models import Review
-from django.views import View
+from django.views import View 
+from django.views.generic import TemplateView
 # # Create your views here.
 # def review(models.Model):
 #     pass
@@ -47,5 +49,20 @@ class ReviewView(View):
 #         form = ReviewForm()
 #     return render(request,'reviews/index.html',{"form":form})
 
-def thank_you(request):
-    return render(request,'reviews/formd.html')
+class ThankYouView(TemplateView):
+    template_name = "reviews/formd.html"
+    def get_context_data(self, **kwargs) :
+        context =  super().get_context_data(**kwargs) #super method keeps all the previous data saved from parent class TemplateView
+        context["message"] = "This Context in templateView is Working Properly"
+        return context
+class AllReviewsView(TemplateView):
+    template_name = "reviews/review_list.html"
+   
+    def get_context_data(self, **kwargs) :
+        context =  super().get_context_data(**kwargs)
+        data = Review.objects.all()
+        context["data"] = data
+        return context
+    
+# def thank_you(request):
+#     return render(request,'reviews/formd.html')
