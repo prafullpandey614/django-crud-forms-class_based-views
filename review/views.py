@@ -6,18 +6,20 @@ from matplotlib.style import context
 from .forms import ReviewForm
 from .models import Review
 from django.views import View 
-from django.views.generic import TemplateView , ListView , DetailView ,FormView
+from django.views.generic import TemplateView , ListView , DetailView ,FormView , CreateView
 # # Create your views here.
 # def review(models.Model):
 #     pass
-class ReviewView(FormView):
+class ReviewView(CreateView):
+    model = Review
+    #create view automatically saves data to database that's why we use it but we also provide it form-class for customizations
     form_class = ReviewForm
     template_name = "reviews/index.html"
     success_url = "/thank-you"
     #this is all we need to write for rendering  a Form in a template
-    def form_valid(self, form):
-        form.save() #this function is used to save the form to the database
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.save() #this function is used to save the form to the database
+    #     return super().form_valid(form)
     # def get(self,request):
     #     form = ReviewForm()
     #     return render(request,'reviews/index.html',{"form":form})
