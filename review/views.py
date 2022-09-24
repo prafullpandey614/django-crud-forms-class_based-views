@@ -6,7 +6,7 @@ from matplotlib.style import context
 from .forms import ReviewForm
 from .models import Review
 from django.views import View 
-from django.views.generic import TemplateView , ListView
+from django.views.generic import TemplateView , ListView , DetailView
 # # Create your views here.
 # def review(models.Model):
 #     pass
@@ -66,13 +66,15 @@ class AllReviewsView(ListView):
     #     data = Review.objects.all()
     #     context["data"] = data
     #     return context
-class SingleReviewView(TemplateView):
+class SingleReviewView(DetailView):
     template_name = "reviews/single_data.html"
-    def get_context_data(self, **kwargs) :
-        context =  super().get_context_data(**kwargs)
-        id = kwargs["id"]
-        selected_person = Review.objects.get(pk=id)
-        context["data"] = selected_person
-        return context
+    model = Review
+    context_object_name = "data" #by default here you can use "object" or "review" {lowercase model name} but  I changed it to "data" 
+    # def get_context_data(self, **kwargs) :
+    #     context =  super().get_context_data(**kwargs)
+    #     id = kwargs["id"]
+    #     selected_person = Review.objects.get(pk=id)
+    #     context["data"] = selected_person
+    #     return context
 # def thank_you(request):
 #     return render(request,'reviews/formd.html')
