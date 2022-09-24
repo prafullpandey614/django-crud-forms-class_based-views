@@ -1,0 +1,26 @@
+{% extends "reviews/base.html" %}
+{% load static %}
+{% block title %}
+  {{data.title}}
+{% endblock title %}
+
+{% block content %}
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto flex flex-wrap">
+      <div class="lg:w-2/3 mx-auto">
+        <div class="flex flex-wrap w-full bg-gray-100 py-32 px-10 relative mb-4">
+          <img alt="gallerdy" class="w-full object-cover h-full object-center block opacity-25 absolute inset-0" src="/images/background.jpg">
+          <div class="text-center relative z-10 w-full">
+            <h2 class="text-2xl text-gray-900 font-medium title-font mb-2">{{data.user_name}}</h2>
+            <p class="leading-relaxed">{{data.email}}</p>
+            <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
