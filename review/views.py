@@ -6,30 +6,37 @@ from matplotlib.style import context
 from .forms import ReviewForm
 from .models import Review
 from django.views import View 
-from django.views.generic import TemplateView , ListView , DetailView
+from django.views.generic import TemplateView , ListView , DetailView ,FormView
 # # Create your views here.
 # def review(models.Model):
 #     pass
-class ReviewView(View):
-    def get(self,request):
-        form = ReviewForm()
-        return render(request,'reviews/index.html',{"form":form})
-    def post(self,request):
-        form = ReviewForm(request.POST)
-        #if we want to update the review then we need to pass another parameter here
-            # existing data = Review.objects.get(id=request.POST.get('id'))
-            # form = ReviewForm(request.POST, instance=existing_data)
-            #form.save() 
+class ReviewView(FormView):
+    form_class = ReviewForm
+    template_name = "reviews/index.html"
+    success_url = "/thank-you"
+    #this is all we need to write for rendering  a Form in a template
+    def form_valid(self, form):
+        form.save() #this function is used to save the form to the database
+        return super().form_valid(form)
+    # def get(self,request):
+    #     form = ReviewForm()
+    #     return render(request,'reviews/index.html',{"form":form})
+    # def post(self,request):
+    #     form = ReviewForm(request.POST)
+    #     #if we want to update the review then we need to pass another parameter here
+    #         # existing data = Review.objects.get(id=request.POST.get('id'))
+    #         # form = ReviewForm(request.POST, instance=existing_data)
+    #         #form.save() 
         
-        if(form.is_valid()):
-            # data_dictionary = form.cleaned_data
-            # data = Review(user_name = data_dictionary['user_name'], email = data_dictionary['email'])
-            # data.save()
+    #     if(form.is_valid()):
+    #         # data_dictionary = form.cleaned_data
+    #         # data = Review(user_name = data_dictionary['user_name'], email = data_dictionary['email'])
+    #         # data.save()
             
-            # The above lines are commented out because they need to be used when use forms.Form class in forms.py but instead we are using forms.ModelForm so we cna directly use save method here
-            form.save()
-            return HttpResponseRedirect('/thank-you')
-        return render(request,'reviews/index.html',{"form":form})
+    #         # The above lines are commented out because they need to be used when use forms.Form class in forms.py but instead we are using forms.ModelForm so we cna directly use save method here
+    #         form.save()
+    #         return HttpResponseRedirect('/thank-you')
+    #     return render(request,'reviews/index.html',{"form":form})
         
 # def review(request):
 #     if request.method == 'POST':
