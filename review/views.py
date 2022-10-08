@@ -1,4 +1,7 @@
 from dataclasses import dataclass
+from re import T
+
+
 # from msilib.schema import ListView
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -85,5 +88,19 @@ class SingleReviewView(DetailView):
     #     selected_person = Review.objects.get(pk=id)
     #     context["data"] = selected_person
     #     return context
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        loaded_review = self.object
+        request = self.request
+        favourite_id = request.session.get('favourite_review')
+       
+        context["is_favourite"] = favourite_id==str(loaded_review.id)
+        return context 
 # def thank_you(request):
 #     return render(request,'reviews/formd.html')
+class FavouriteReview(View):
+    def post(self,request):
+        fav_rev = request.POST["is_favourite"]
+        request.session["favourite_review"] = fav_rev
+        return HttpResponseRedirect("/review/" + fav_rev)
+        
